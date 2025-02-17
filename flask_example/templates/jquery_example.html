@@ -6,18 +6,33 @@
     <title>Flask with Latest jQuery</title>
     <!-- Include the latest version of jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
+    
 </head>
 <body>
 
     <h1>Hello Flask with jQuery</h1>
-
-    <button id="btn">Click Me</button>
-
+    <textarea id="txtDialogPrompt" rows="5" cols="50"></textarea>
+    <button id="btnSendOpenAIRequest">Ask ChatGPT</button>
+    <br />
+    <div id="gptResult"></div>
+    
     <script>
         $(document).ready(function(){
-            $("#btn").click(function(){
-                alert("Button clicked!");
+            $btn = $("#btnSendOpenAIRequest");
+            $txt = $("#txtDialogPrompt");
+
+            
+            $btn.click(function(){
+                var prompt = 
+                {
+                    "txtPrompt" : $txt.val()
+                };
+                
+                //console.log(prompt);
+                $.post("process_prompt", prompt, function(data){
+                    var result = "<b>" + $txt.val() + "</b>:" + $('#gptResult').html() + "<br /><br />" + data;
+                    $('#gptResult').html(result);
+                });
             });
         });
     </script>

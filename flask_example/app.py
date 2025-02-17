@@ -4,6 +4,7 @@ from openai import OpenAI
 app = Flask(__name__)
 
 gpt_key = 'YOUR API KEY HERE'
+print(gpt_key)
 
 
 @app.route('/')
@@ -38,6 +39,7 @@ def get_product():
 
 @app.route('/process_prompt', methods=['POST'])
 def process_prompt():
+    # return gpt_key
     prompt = request.form.get('txtPrompt')
     # Instantiate OpenAI Client
     client = OpenAI(
@@ -45,6 +47,11 @@ def process_prompt():
     )
     completion = client.chat.completions.create(model="gpt-4-turbo", messages=[{"role": "user", "content": prompt}])
     return completion.choices[0].message.content
+
+
+@app.route('/jquery_example')
+def jquery_example():
+    return render_template("jquery_example.html")
 
 if __name__ == '__main__':
     app.run(debug=True)
