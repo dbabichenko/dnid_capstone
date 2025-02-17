@@ -8,11 +8,11 @@ using UnityEngine.UI;
 
 public class ChatGPTRequest : MonoBehaviour
 {
-    private string apiKey = "YOUR API KEY HERE";
+    private string apiKey = "YOUR API KEY";
     
     private string apiUrl = "https://api.openai.com/v1/chat/completions";
 
-    public TMP_InputField userPrompt;
+    public TMP_InputField[] userPrompts;
     public Button askGPT;
     public TMP_Text responseText;
 
@@ -26,8 +26,12 @@ public class ChatGPTRequest : MonoBehaviour
 
     private void SendPromptToOpenAI()
     {
-        string prompt = userPrompt.text; // "I have a headache today.  What should I do?";
-        StartCoroutine(SendRequest(prompt));
+        foreach(TMP_InputField userPrompt in userPrompts)
+        {
+            string prompt = userPrompt.text; 
+            StartCoroutine(SendRequest(prompt));
+        }
+        
     }
 
     IEnumerator SendRequest(string prompt)
