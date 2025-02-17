@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask with Latest jQuery</title>
+    <!-- Include the latest version of jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+</head>
+<body>
+
+    <h1>Hello Flask with jQuery</h1>
+
+    <button id="btn">Click Me</button>
+
+    <script>
+        $(document).ready(function(){
+            $("#btn").click(function(){
+                alert("Button clicked!");
+            });
+        });
+    </script>
+
+</body>
+</html>
