@@ -3,23 +3,37 @@ using System.Collections;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
+using TMPro;
+using UnityEngine.UI;
 
 public class ChatGPTRequest : MonoBehaviour
 {
-    private string apiKey = "YOUR_API_KEY";
+    private string apiKey = "YOUR API KEY HERE";
     
     private string apiUrl = "https://api.openai.com/v1/chat/completions";
 
+    public TMP_InputField userPrompt;
+    public Button askGPT;
+    public TMP_Text responseText;
+
+
+
     void Start()
     {
-        string prompt = "What is the capital of France?";
+        askGPT.onClick.AddListener(SendPromptToOpenAI);
+        
+    }
+
+    private void SendPromptToOpenAI()
+    {
+        string prompt = userPrompt.text; // "I have a headache today.  What should I do?";
         StartCoroutine(SendRequest(prompt));
     }
 
     IEnumerator SendRequest(string prompt)
     {
         // Create the request JSON
-        string jsonData = "{\"model\": \"gpt-4o\", \"messages\": [{\"role\": \"system\", \"content\": \"You are a helpful assistant.\"},{\"role\": \"user\", \"content\": \"" + prompt + "\"}], \"temperature\": 0.7}";
+        string jsonData = "{\"model\": \"gpt-4o\", \"messages\": [{\"role\": \"system\", \"content\": \"You are a cranky doctor who hasn't slept in days and is very irritated, respond accordingly.\"},{\"role\": \"user\", \"content\": \"" + prompt + "\"}], \"temperature\": 0.7}";
 
         // Create the web request
         using (UnityWebRequest request = new UnityWebRequest(apiUrl, "POST"))
@@ -42,7 +56,8 @@ public class ChatGPTRequest : MonoBehaviour
                 ChatGPTResponse response = JsonUtility.FromJson<ChatGPTResponse>(jsonResponse);
                 if (response != null && response.choices.Length > 0)
                 {
-                    Debug.Log("ChatGPT: " + response.choices[0].message.content);
+                    // Debug.Log("ChatGPT: " + response.choices[0].message.content);
+                    responseText.text = response.choices[0].message.content;
                 }
             }
             else
